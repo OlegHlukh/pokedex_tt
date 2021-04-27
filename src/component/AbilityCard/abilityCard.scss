@@ -1,6 +1,44 @@
-.abilityCard {
-  &__img {
-    width: 400px;
-    object-fit: contain;
+.ability_card {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  align-self: center;
+  border: 1px solid gray;
+
+  @media screen and (max-width: 1325px) {
+    width: 300px;
   }
+
+  @media screen and (max-width: 660px) {
+    width: 230px;
+  }
+
+  &__img {
+    object-fit: contain;
+    padding: 10px;
+  }
+
+  &__type {
+    padding-right: 5px;
+    text-transform: capitalize;
+  }
+  &__name {
+    display: block;
+    text-align: center;
+    font-size: 50px;
+    text-transform: capitalize;
+
+    @media screen and (max-width: 660px) {
+      font-size: 14px;
+    }
+  }
+
+  &__table {
+    margin: 10px;
+  }
+}
+
+.table__td {
+  width: 70%;
 }

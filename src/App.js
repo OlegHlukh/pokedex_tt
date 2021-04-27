@@ -1,6 +1,6 @@
-import { PokemonList } from './component/PokemonList'
+import { PokemonList } from './component/PokemonList';
+import 'bulma';
 import './App.scss';
-
 
 export const App = () => {
   return (

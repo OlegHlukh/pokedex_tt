@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getPokemonImgUrl } from '../../api/api';
-import classname from 'classnames'
-import './pokemon__card.scss';
+import PropTypes from 'prop-types';
+import classname from 'classnames';
+import './pokemon_card.scss';
 
 export const PokemonCard = ({
   name,
@@ -16,7 +17,7 @@ export const PokemonCard = ({
     loadPokemonByName(name, setPokemon);
   }, [name, loadPokemonByName]);
 
-  const onClickHandler = (pokemon, e) => {
+  const onClickHandler = (pokemon) => {
     isVisibleAbilityCard(true);
     loadImgUrl(pokemon.id);
 
@@ -57,19 +58,20 @@ export const PokemonCard = ({
             <div className="pokemon_card__type">
               {pokemon.types.map(type => (
                 <span
+                  key={type.slot}
                   className={classname('pokemon_card__type_name', type.type.name, {
                     'pokemon_card__type_name--fire': type.type.name === 'fire',
                     'pokemon_card__type_name--poison': type.type.name === 'poison',
                     'pokemon_card__type_name--grass': type.type.name === 'grass',
                     'pokemon_card__type_name--water': type.type.name === 'water',
                     'pokemon_card__type_name--electic': type.type.name === 'electric',
-                    'pokemon_card__type_name--fairy' : type.type.name === 'fairy',
-                    'pokemon_card__type_name--normal' : type.type.name === 'normal',
-                    'pokemon_card__type_name--flying' : type.type.name === 'flying',
-                    'pokemon_card__type_name--bug' : type.type.name === 'bug',
-                    'pokemon_card__type_name--ground' : type.type.name === 'ground',
-                    'pokemon_card__type_name--fighting' : type.type.name === 'fighting',
-                    'pokemon_card__type_name--psychic' : type.type.name === 'psychic',
+                    'pokemon_card__type_name--fairy': type.type.name === 'fairy',
+                    'pokemon_card__type_name--normal': type.type.name === 'normal',
+                    'pokemon_card__type_name--flying': type.type.name === 'flying',
+                    'pokemon_card__type_name--bug': type.type.name === 'bug',
+                    'pokemon_card__type_name--ground': type.type.name === 'ground',
+                    'pokemon_card__type_name--fighting': type.type.name === 'fighting',
+                    'pokemon_card__type_name--psychic': type.type.name === 'psychic',
                   })}>
                     {type.type.name}
                   </span>
@@ -80,4 +82,12 @@ export const PokemonCard = ({
         : (`Loading....`) }
     </div>
   )
+}
+
+PokemonCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  loadPokemonByName: PropTypes.func.isRequired,
+  loadImgUrl: PropTypes.func.isRequired,
+  getPokemonStats: PropTypes.func.isRequired,
+  isVisibleAbilityCard: PropTypes.func.isRequired,
 }

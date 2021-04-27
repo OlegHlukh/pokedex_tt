@@ -1,5 +1,23 @@
 .pokemon_list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 25px;
+  gap: 15px;
+
+  @media screen and (max-width: 1325px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: 1fr;
+    justify-content: space-between;
+  }
+}
+
+.ability_block {
+  justify-content: center;
+  align-self: center;
+}
+
+.my_button {
+  text-transform: capitalize;
 }

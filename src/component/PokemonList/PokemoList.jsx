@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { getPokemonWithLimit, getPokemonByName, getPokemonImgUrl } from '../../api/api';
-import { AbilityCard } from '../AbilityCard/';
+import { AbilityCard } from '../AbilityCard';
 import { PokemonCard } from '../PokemonCard';
 import './pokemon_list.scss'
 
 export const PokemonList = () => {
   const [pokemonList, setPokemonList] = useState([]);
-  const [visibleStatus, setVisibleStatus] = useState(false);
+  const [visibleAbility, setVisibleStatus] = useState(false);
   const [imgUrl, setTmgUrl] = useState('');
-  const [pokemonStats, setPokemnStats] = useState(null)
+  const [pokemonStats, setPokemnStats] = useState(null);
+  const [limitOfPokemon] = useState(12);
+  const [offSet, setOffSet] = useState(0);
 
   const loadPokemonFromServer = async() => {
-    const pokemonFromServer = await getPokemonWithLimit(12);
+    const pokemonFromServer = await getPokemonWithLimit(limitOfPokemon, offSet);
 
     setPokemonList(pokemonFromServer);
   }
@@ -22,7 +24,7 @@ export const PokemonList = () => {
     callback(response);
   }
 
-  const isVisibleAbilityCard = (status) => {
+  const isVisibleAbilityCard = () => {
     setVisibleStatus(true);
   }
 
@@ -36,28 +38,39 @@ export const PokemonList = () => {
 
   useEffect(() => {
     loadPokemonFromServer();
-  }, [])
+  }, [offSet])
+
+  const handleButton = () => {
+    setOffSet(state => state + 12)
+  }
 
   return (
     <>
-      <div className="pokemon_list">{pokemonList.map(pokemon => (
-        <PokemonCard
-          name={pokemon.name}
-          loadPokemonByName={loadPokemonByName}
-          isVisibleAbilityCard={isVisibleAbilityCard}
-          loadImgUrl={loadImgUrl}
-          getPokemonStats={getPokemonStats}
-        />
+      <div className="pokemon_list">
+        {pokemonList.map(pokemon => (
+          <PokemonCard
+            key={pokemon.name}
+            name={pokemon.name}
+            loadPokemonByName={loadPokemonByName}
+            isVisibleAbilityCard={isVisibleAbilityCard}
+            loadImgUrl={loadImgUrl}
+            getPokemonStats={getPokemonStats}
+          />
         ))}
+        <button
+          className="button is-info is-outlined my_button"
+          onClick={handleButton}
+        >
+          load more
+        </button>
       </div>
-      <div>
-        {(visibleStatus)
-         ? (<AbilityCard
+      <div className="ability_block">
+        {(visibleAbility) &&
+          (<AbilityCard
               imgUrl={imgUrl}
               pokemonStats={pokemonStats}
          />)
-         : (<div></div>)
-         }
+        }
       </div>
     </>
   );
